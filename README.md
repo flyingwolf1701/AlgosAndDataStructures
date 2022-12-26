@@ -4,12 +4,8 @@ I am going to use this repo to study all the things and keep my skills hot.
 
 # List of problems
 
-## Easy
+## Codesmith Hackhours
 1. 
-
-
-## Medium
-
-
-
-## Hard
+2. 
+3. 
+4. 
