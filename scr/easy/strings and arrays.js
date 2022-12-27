@@ -96,7 +96,7 @@ function duplicateNumber(array) {
   return 'no duplicates found'
 }
 
-console.log(duplicateNumber([1,5,4,3,6,2,4,7])) // 4
+// console.log(duplicateNumber([1,5,4,3,6,2,4,7])) // 4
 
 /* EXTENSION:
 You have an unsorted array of n + 1 numbers, with the range of k to k + n - 1, with an extra number that is a duplicate.
@@ -116,17 +116,110 @@ ex: [3, 4, 7, 6, 8, 5, 6] should return 6
  Extension: Rewrite fastCache so it can handle array or object input, and any number of arguments.
 */
 
+function fastCache(func) {
+  const cache = {}
+
+  return function (arg) {
+    console.log(arg)
+    if (Object.hasOwn(cache, arg)) return `from cache ${cache[arg]}`;
+    const result = func(arg);
+    cache[arg] = result;
+    return `cached ${result}`
+  }
+}
+
+const twoSum = (num) => num + 2;
+const cached = fastCache(twoSum);
+
+// console.log(cached(2))
+// console.log(cached(4))
+// console.log(cached(2))
+// console.log(cached(5))
+
+//extention - This is a weird solution, I am not sure that I am a fan, mostly because of the levels of tests and callback functions I would have to write to test this myself.  
+
+function fastCacheAdvanced(func) {
+  const cache = {}
+
+  return function (...args) {
+    console.log(args)
+    const argString = JSON.stringify(args)
+    console.log(argString)
+    if (Object.hasOwn(cache, argString)) return `from cache ${cache[argString]}`;
+    const result = func(...args);
+    cache[argString] = result;
+    return `cached ${result}`
+  }
+}
+
+const twoSumX = (num) => num + 2;
+const cachedX = fastCacheAdvanced(twoSumX);
+
+// console.log(cachedX([2,4,6]))
+// console.log(cachedX(4))
+// console.log(cachedX(2))
+// console.log(cachedX(4))
+
+/* ------------------------------------------------------------------------------ */
+
+// Common Elememnts
+// Time complete: 13 min
+/*
+Write a function called commonElements that takes in any number of arrays in the 
+argument. The arrays may contain both numbers and strings. It should return a new array
+with all the common elements (both numbers and/or strings) from the given input. 
+If there are no common numbers/strings, return "Nothing in Common!"
+Assume there are no duplicates within the array.
 
 
+ex: 
+arr1 = [2, 10,'cat', 3, 99, 2000, 'dog', 'lion'];
+arr2 = [3, 7, 2, 2000, 1, 'dog', 'cat'];
+arr3 = [2, 100, 2000, 'dog', 3, 'lion'];
+
+commonElements(arr1, arr2, arr3) -> [2, 3, 2000, 'dog']
+*/
+// elements have to be common to all k arrays. 
+// iterate through all of this one time and add each one to an object. Then I would use Object.entries to push the key of the objects with a value of k to a new array. 
+
+const commonElements = (...args) => {
+  const commonEls = {};
+  const output = [];
+
+  args.forEach(arr => {
+    arr.forEach(el => {
+      if (!commonEls[el]) {
+        commonEls[el] = 0;
+      }
+      commonEls[el] += 1;
+    })
+  })
+
+  if (output.length === 0) return "Nothing in Common!"
+
+  for (const [key, value] of Object.entries(commonEls)) {
+    if (value === args.length) {
+      output.push(key)
+    }
+  }
+
+  return output
+}
+
+arr1 = [10,'cat', 99, 'lion'];
+arr2 = [3, 7, 2, 2000, 1, 'dog', 'cat'];
+arr3 = [2, 100, 2000, 'dog', 3, 'lion'];
+console.log(commonElements(arr1, arr2, arr3))
 
 
+/*
+** Extension **
+Refactor your function to have O(n) time complexity.
+*/
 
+const commonElementsOptimized = (...args) => {
 
-
-
-
-
-
+}
 
 /* ------------------------------------------------------------------------------ */
 
