@@ -163,7 +163,7 @@ const cachedX = fastCacheAdvanced(twoSumX);
 /* ------------------------------------------------------------------------------ */
 
 // Common Elememnts
-// Time complete: 13 min
+// Time complete: 13
 /*
 Write a function called commonElements that takes in any number of arrays in the 
 argument. The arrays may contain both numbers and strings. It should return a new array
@@ -206,20 +206,58 @@ const commonElements = (...args) => {
   return output
 }
 
-arr1 = [10,'cat', 99, 'lion'];
+arr1 = [2, 10,'cat', 3, 99, 2000, 'dog', 'lion'];
 arr2 = [3, 7, 2, 2000, 1, 'dog', 'cat'];
 arr3 = [2, 100, 2000, 'dog', 3, 'lion'];
-console.log(commonElements(arr1, arr2, arr3))
+// console.log(commonElements(arr1, arr2, arr3))
 
+/* ------------------------------------------------------------------------------ */
 
+// Balanced Parens
+// 
 /*
-** Extension **
-Refactor your function to have O(n) time complexity.
-*/
+ * write a function that takes a string of text and returns true if
+ * the parentheses are balanced and false otherwise.
+ *
+ * Example:
+ *   balancedParens('(');  // false
+ *   balancedParens('()'); // true
+ *   balancedParens(')(');  // false
+ *   balancedParens('(())');  // true
+ *
+ * Step 2:
+ *   make your solution work for all types of brackets
+ *
+ * Example:
+ *  balancedParens('[](){}'); // true
+ *  balancedParens('[({})]');   // true
+ *  balancedParens('[(]{)}'); // false
+ *
+ * Step 3:
+ * ignore non-bracket characters
+ * balancedParens(' const wow = { yo: thisIsAwesome() }'); // true
+ * balancedParens(' const newton = () => { telescopes.areSicc(); '); // false
+ *
+ *
+ */
 
-const commonElementsOptimized = (...args) => {
+const balancedParens = input => {
+  const parenObj = { '{': '}', '(': ')', '[': ']'};
+  let stack = []
 
-}
+  for (char of input) {
+    if (parenObj[char]) stack.push(char); 
+    else if (char === '}' || char === ']' || char === ')') {
+      const checkValue = stack.pop()
+      if (parenObj[checkValue] !== char) return false;
+    }
+  }
+  return stack.length === 0;
+};
+
+console.log(balancedParens('[]')) // true
+console.log(balancedParens('[({})]'));   // true
+console.log(balancedParens('[(]{)}')); // false
 
 /* ------------------------------------------------------------------------------ */
 
