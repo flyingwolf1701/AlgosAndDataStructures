@@ -255,10 +255,191 @@ const balancedParens = input => {
   return stack.length === 0;
 };
 
-console.log(balancedParens('[]')) // true
-console.log(balancedParens('[({})]'));   // true
-console.log(balancedParens('[(]{)}')); // false
+// console.log(balancedParens('[]')) // true
+// console.log(balancedParens('[({})]'));   // true
+// console.log(balancedParens('[(]{)}')); // false
 
 /* ------------------------------------------------------------------------------ */
 
+/* Merge Ranges
 
+Write a function mergeRanges that takes an array of meeting time ranges and
+returns an array of condensed ranges, merging the overlapping intervals.
+
+Example:
+
+intervals = [[0, 1], [3, 5], [4, 8], [10, 12], [9, 10]]
+mergeRanges(intervals); -> [[0, 1], [3, 8], [9, 12]]
+
+intervals = [[8, 10], [15, 18], [1, 3], [2, 6]]
+mergeRanges(intervals); -> [[1, 6], [8, 10], [15, 18]]
+
+Do not assume the ranges are in order. The intervals array will have at least
+one range in it.
+
+*/
+
+const mergeRanges = intervals => {
+// sort the arrays by first number
+  const sorted = intervals.sort((a, b) => a[0] - b[0])
+  console.log(sorted)
+ 
+  
+};
+
+// console.log(mergeRanges([[8, 10], [15, 18], [1, 3], [2, 6]]))
+
+/* ------------------------------------------------------------------------------ */
+
+function mergeRangesAI(intervals) {
+  // Sort the intervals array in ascending order based on the start time of the intervals
+  intervals.sort((a, b) => a[0] - b[0]);
+
+  // Initialize an empty result array
+  const result = [];
+
+  // Initialize a current interval with the first interval in the sorted array
+  let currentInterval = intervals[0];
+
+  // Iterate through the rest of the sorted array
+  for (const interval of intervals.slice(1)) {
+    // If the current interval overlaps with the interval being considered, merge the two intervals
+    if (interval[0] <= currentInterval[1]) {
+      currentInterval = [Math.min(currentInterval[0], interval[0]), Math.max(currentInterval[1], interval[1])];
+    }
+    // If the current interval does not overlap with the interval being considered, add the current interval to the result array and update the current interval to be the interval being considered
+    else {
+      result.push(currentInterval);
+      currentInterval = interval;
+    }
+  }
+
+  // Add the current interval to the result array
+  result.push(currentInterval);
+
+  return result;
+}
+/* ------------------------------------------------------------------------------ */
+
+/* Apple Stock
+** time to comeple: 20 min
+Consider an array called apple-stock as an argument. This array 
+represents the variation of an Apple stock during a single day. 
+The values in the array are in chronological order.
+
+ex: [1000, 500, 1500, 2000, 0] --> The stock began at 1000 and closed at 0;
+
+Write a function called highestProfit that calculates the highest profit 
+you can make in the given day by buying and selling a single Apple stock. 
+This is comprised of one buy and one sell. Keep your worst case 
+time complexity in O(n^2).
+
+Return 0 if no profit is possible OR if input is invalid.
+
+** Extension **
+Refactor your function to improve your time complexity to O(n).
+Hint: Use pointers to keep track of the indices of max, min to 
+calculate profit along the array.
+
+*/
+// working on the extention. First I want to find the min and its index
+// then I want to find the max after the min has been found. 
+const highestProfit = appleStock => {
+  let buy = Infinity;
+  let sell = -Infinity;
+  let buyIndex;
+  
+
+  // Find buy price 
+  for (let i = 0; i < appleStock.length - 1; i++) {
+    if (appleStock[i] < buy && appleStock[i] > 0) {
+      buy = appleStock[i]
+      buyIndex = i;
+    }
+  }
+  
+  // Find sell price
+  for (j = buyIndex + 1; j < appleStock.length; j++){
+    if (appleStock[j] > sell && appleStock[j] > 0) sell = appleStock[j];
+  }
+  
+  // calculate profit -> if <= 0 return 0
+  let profit = sell - buy
+  return profit <= 0 ? 0 : profit
+}
+
+// console.log(highestProfit([1000, 500, 2000, 1000, 0])) // 1500
+// console.log(highestProfit([1000, 500, 1000, 1500, 0, 200, 800, -10, 0, 100])) // 1000
+// console.log(highestProfit([200, 600, 700, 100, 300, 200, 620])) // 520
+// console.log(highestProfit([2000, 1000, 100, 200, 400, 100])) //300
+
+/* ------------------------------------------------------------------------------ */
+
+/* Nested Array Max
+
+Write a function to find the largest number in an arbitrarily nested array. 
+The function should return the largest number contained anywhere in the array, 
+regardless of how deeply nested it is.
+Assume all elements in each array are numbers.
+
+Ex:
+
+const arrFlat = [1, 3, 10, 6];
+nestedArrMax(arrFlat);
+-> 10
+
+const arrNested = [1, [3, [10], 6]];
+nestedArrMax(arrNested);
+-> 10
+
+*/
+
+const nestedArrMax = arr => {
+  // loop through the original array, if it is a number check to see if it is the max number
+  // if it is an array loop through that array with the same check
+  let max = -Infinity;
+  const helper = (array) => {
+    for (let el of array) {
+      if (typeof el === 'number') {
+        if (el > max) max = el
+      } else {
+        helper(el)
+      }
+    }
+  }
+  helper(arr);
+  return max
+};
+
+console.log(nestedArrMax([1,2,4,[5,[6],7],8, [10, [11]]]))
+
+/* 
+
+Extension:
+Write a function to find the largest number in a nested array, up to and including a given level. 
+Return the largest number without going deeper in the nested array than the specified level.
+Assume all elements in each array are numbers.
+
+The original array is considered to be at depth 1, any inner array is depth 2, etc.
+
+Ex:
+
+const arrNested = [1, [3, [10], 6]];
+nestedArrMaxLevel(arrNested, 1);
+-> 1
+
+nestedArrMaxLevel(arrNested, 2);
+-> 6
+
+nestedArrMaxLevel(arrNested, 3);
+-> 10
+
+*/
+
+const nestedArrMaxLevel = (arr, level) => {
+
+};
+
+
+
+/* ------------------------------------------------------------------------------ */
