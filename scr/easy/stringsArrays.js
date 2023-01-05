@@ -411,7 +411,7 @@ const nestedArrMax = arr => {
   return max
 };
 
-console.log(nestedArrMax([1,2,4,[5,[6],7],8, [10, [11]]]))
+// console.log(nestedArrMax([1,2,4,[5,[6],7],8, [10, [11]]]))
 
 /* 
 
@@ -437,9 +437,23 @@ nestedArrMaxLevel(arrNested, 3);
 */
 
 const nestedArrMaxLevel = (arr, level) => {
-
+  let currentLevel = 1;
+  let max = -Infinity;
+  const helper = (array) => {
+    for (let el of array) {
+      console.log(currentLevel)
+      if (typeof el === 'number') {
+        if (el > max) max = el
+      } else if (level >= currentLevel) {
+        currentLevel++
+        helper(el)
+      }
+    }
+  }
+  helper(arr);
+  return max
 };
-
-
+const testArray = [1,2,[5],4, [6, [7, [8], 9], 10]]
+console.log(nestedArrMaxLevel(testArray, 2))
 
 /* ------------------------------------------------------------------------------ */
